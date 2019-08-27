@@ -1,0 +1,50 @@
+[
+  {
+    "id": 2072,
+    "name": "England",
+    "countryCode": "ENG",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/en/b/be/Flag_of_England.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  },
+  {
+    "id": 2081,
+    "name": "France",
+    "countryCode": "FRA",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  },
+  {
+    "id": 2088,
+    "name": "Germany",
+    "countryCode": "DEU",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  },
+  {
+    "id": 2114,
+    "name": "Italy",
+    "countryCode": "ITA",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/en/0/03/Flag_of_Italy.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  },
+  {
+    "id": 2224,
+    "name": "Spain",
+    "countryCode": "ESP",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  },
+  {
+    "id": 2187,
+    "name": "Portugal",
+    "countryCode": "PRT",
+    "ensignUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg",
+    "parentAreaId": 2077,
+    "parentArea": "Europe"
+  }
+]
