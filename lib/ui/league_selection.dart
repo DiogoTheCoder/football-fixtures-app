@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:football_fixtures/models/league.dart';
 import 'package:football_fixtures/repos/area.dart';
 import 'package:football_fixtures/repos/league.dart';
+import 'package:football_fixtures/ui/fixtures.dart';
 
 class LeagueSelectionPage extends StatefulWidget {
   LeagueSelectionPage({Key key, this.title, this.areaRepo}) : super(key: key);
@@ -55,7 +56,7 @@ class _LeagueSelectionPageState extends State<LeagueSelectionPage> {
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: <Widget>[
-                            leagueCard(_leagues[index]),
+                            leagueCard(context, _leagues[index]),
                           ],
                         );
                       },
@@ -72,40 +73,48 @@ class _LeagueSelectionPageState extends State<LeagueSelectionPage> {
   }
 }
 
-Widget leagueCard(League league) {
-  return Card(
-    child: Container(
-      height: 96,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                AutoSizeText(
-                  league.name,
-                  minFontSize: 20,
-                  maxLines: 1,
-                ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 2)),
-                AutoSizeText.rich(
-                  TextSpan(text: league.getArea().name),
-                  style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
-                  minFontSize: 14,
-                  maxLines: 1,
-                ),
-              ],
-            ),
-            SvgPicture.network(
-              league.getArea()?.ensignUrl,
-              width: 64,
-              fit: BoxFit.fill,
-            ),
-          ],
+Widget leagueCard(BuildContext context, League league) {
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => FixturesPage(league: league)),
+      );
+    },
+    child: Card(
+      child: Container(
+        height: 96,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  AutoSizeText(
+                    league.name,
+                    minFontSize: 20,
+                    maxLines: 1,
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 2)),
+                  AutoSizeText.rich(
+                    TextSpan(text: league.getArea().name),
+                    style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+                    minFontSize: 14,
+                    maxLines: 1,
+                  ),
+                ],
+              ),
+              SvgPicture.network(
+                league.getArea()?.ensignUrl,
+                width: 64,
+                fit: BoxFit.fill,
+              ),
+            ],
+          ),
         ),
       ),
     ),

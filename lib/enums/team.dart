@@ -1,0 +1,1 @@
+enum TeamType { HOME, AWAY }

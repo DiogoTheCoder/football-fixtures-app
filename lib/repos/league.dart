@@ -7,12 +7,18 @@ import 'package:football_fixtures/repos/area.dart';
 
 class LeagueRepo {
   Future<List<League>> getLeagues(context) async {
-    String url = Config.baseUrl + '?areas=';
+    String url = Config.baseUrl + 'competitions?areas=';
     for (Area area in AreaRepo.getList()) {
       url = url + "${area.id},";
     }
 
-    var result = await ApiController.fetch(url);
+    // Fetch the valid Leagues and cache them!
+    var result = await ApiController.fetch(
+      url,
+      true,
+      Duration(hours: 1)
+    );
+    
     final List<League> leagues = [];
     for (var league in json.decode(result.body)['competitions']) {
       var date = league['currentSeason']['endDate'];
