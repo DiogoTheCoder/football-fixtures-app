@@ -1,17 +1,22 @@
-# football_fixtures
+# Football Fixtures App
 
-A new Flutter project.
+A new Flutter project using  [Football Data API v2](https://www.football-data.org/) to provide fixtures for a number of different European leagues 🇪🇺⚽️.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Simply download the repo and run the Flutter command:
 
-A few resources to get you started if this is your first Flutter project:
+```
+flutter run
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+**Note:** you must have Flutter installed and set up and you must arrange your own API key, which you can store under:
+```
+football-fixtures-app/lib/keys.dart
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# football-fixtures-app
+```dart
+class Keys {
+  static const FOOTBALL_DATA_API_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+}
+```
