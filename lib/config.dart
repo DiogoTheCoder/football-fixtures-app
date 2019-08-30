@@ -11,4 +11,17 @@ class Config {
   static String getFutureDate(Duration addDays) {
     return Config.dateFormatter.format(DateTime.now().add(addDays));
   }
+
+  static String _parseEnum(enumItem) {
+    if (enumItem == null) return null;
+    return enumItem.toString().split('.')[1];
+  }
+
+  static enumFromString<T>(List<T> enumValues, String value) {
+    if (value == null) return null;
+
+    return enumValues.singleWhere(
+        (enumItem) => _parseEnum(enumItem) == value,
+        orElse: () => null);
+  }
 }

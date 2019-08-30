@@ -1,10 +1,12 @@
+import 'package:football_fixtures/config.dart';
+import 'package:football_fixtures/enums/match_status.dart';
 import 'package:football_fixtures/enums/team.dart';
 import 'package:football_fixtures/models/team.dart';
 
 class Fixture {
   final int id;
   final String utcDate;
-  final String status; // TODO: change this to be an enum
+  final MatchStatus status;
   Team _homeTeam;
   Team _awayTeam;
 
@@ -14,7 +16,7 @@ class Fixture {
     return Fixture(
       id: json['id'],
       utcDate: json['utcDate'],
-      status: json['status'],
+      status: Config.enumFromString(MatchStatus.values, json['status']),
     );
   }
 
