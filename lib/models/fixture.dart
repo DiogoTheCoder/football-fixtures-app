@@ -71,6 +71,11 @@ class Fixture {
     }
   }
 
+  String getTimeFormatted() {
+    DateTime date = Config.stringToDateTime(this.utcDate).toLocal();
+    return "${date.hour}:${date.minute}";
+  }
+
   String getDateFormatted() {
     DateTime date = Config.stringToDateTime(this.utcDate).toLocal();
     return "${Config.dayNumToString(date.weekday)}, ${date.day} ${Config.monthNumToString(date.month)}";

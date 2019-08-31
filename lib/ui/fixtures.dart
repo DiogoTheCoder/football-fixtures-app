@@ -50,7 +50,7 @@ class _FixturesPageState extends State<FixturesPage> {
                       itemBuilder: (BuildContext context, int index) {
                         Fixture currentFixture = _fixtures[index];
                         DateTime fixtureDate = Config.stringToDateTime(currentFixture.utcDate).toLocal();
-                        Widget fixtureCard = fixtureDaySection(context, currentFixture, fixtureDate, lastFixtureDate);
+                        Widget fixtureCard = fixtureDaySection(context, currentFixture, fixtureDate, lastFixtureDate, index);
                         lastFixtureDate = fixtureDate;
 
                         return fixtureCard;
@@ -70,13 +70,28 @@ class _FixturesPageState extends State<FixturesPage> {
 
 /// Since we only get one week worth of fixtures,
 /// we can get away with just checking the day
-Widget fixtureDaySection(BuildContext context, Fixture fixture, DateTime fixtureDate, DateTime lastFixtureDate) {
-  if (lastFixtureDate.day != fixtureDate.day) {
+Widget fixtureDaySection(BuildContext context, Fixture fixture, DateTime fixtureDate, DateTime lastFixtureDate, int index) {
+  if (index == 0) {
     return Column(
       children: <Widget>[
+        Divider(),
         AutoSizeText(
           fixture.getDateFormatted()
         ),
+        Divider(),
+        fixtureCard(context, fixture),
+      ],
+    );
+  }
+
+  if (lastFixtureDate.day != fixtureDate.day) {
+    return Column(
+      children: <Widget>[
+        Divider(),
+        AutoSizeText(
+          fixture.getDateFormatted()
+        ),
+        Divider(),
         fixtureCard(context, fixture),
       ],
     );
@@ -108,18 +123,31 @@ Widget fixtureCard(BuildContext context, Fixture fixture) {
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              AutoSizeText(
-                fixture.getTeam(TeamType.HOME).name,
-                maxFontSize: 12,
-                maxLines: 2,
+              Container(
+                width: 92,
+                child: AutoSizeText(
+                  fixture.getTeam(TeamType.HOME).name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
               ),
-              AutoSizeText(
-                fixture.getTeam(TeamType.AWAY).name,
-                maxFontSize: 12,
-                maxLines: 2,
+              Expanded(
+                child: AutoSizeText(
+                  fixture.getTimeFormatted(),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+              ),
+              Container(
+                width: 92,
+                child: AutoSizeText(
+                  fixture.getTeam(TeamType.AWAY).name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
               ),
             ],
           ),
