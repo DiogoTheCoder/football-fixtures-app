@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:football_fixtures/config.dart';
+import 'package:football_fixtures/enums/match_status.dart';
 import 'package:football_fixtures/enums/team.dart';
 import 'package:football_fixtures/models/fixture.dart';
 import 'package:football_fixtures/models/league.dart';
@@ -72,7 +73,7 @@ class _FixturesPageState extends State<FixturesPage> {
 /// we can get away with just checking the day
 Widget fixtureDaySection(BuildContext context, Fixture fixture, DateTime fixtureDate, DateTime lastFixtureDate, int index) {
   if (index == 0) {
-    return Column(
+  return Column(
       children: <Widget>[
         Divider(),
         AutoSizeText(
@@ -104,8 +105,40 @@ Widget fixtureDaySection(BuildContext context, Fixture fixture, DateTime fixture
   }
 }
 
+Widget fixtureCardDisplayScoreOrTime(BuildContext context, Fixture fixture) {
+  if (isMatchInPlay(fixture.status) || isMatchOver(fixture.status)) {
+    return Expanded(
+      child: AutoSizeText(
+        fixture.getScoreFormatted(),
+        textAlign: TextAlign.center,
+        maxLines: 1,
+      ),
+    );
+  } else {
+    return Expanded(
+      child: AutoSizeText(
+        fixture.getTimeFormatted(),
+        textAlign: TextAlign.center,
+        maxLines: 1,
+      ),
+    );
+  }
+}
+
 Widget fixtureCard(BuildContext context, Fixture fixture) {
-  Color borderColor = Colors.purple;
+  Color borderColor = Colors.black;
+  if (isMatchOver(fixture.status)) {
+    if (fixture.hasHomeWon()) {
+      borderColor = Colors.green;
+    } else if (fixture.hasDrawn()) {
+      borderColor = Colors.deepOrange;
+    } else {
+      borderColor = Colors.red;
+    }
+  } else if (isMatchInPlay(fixture.status)) {
+      borderColor = Colors.deepPurple;
+  }
+
   return InkWell(
     onTap: () {
       // Navigator.push(
@@ -134,13 +167,7 @@ Widget fixtureCard(BuildContext context, Fixture fixture) {
                   maxLines: 2,
                 ),
               ),
-              Expanded(
-                child: AutoSizeText(
-                  fixture.getTimeFormatted(),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                ),
-              ),
+              fixtureCardDisplayScoreOrTime(context, fixture),
               Container(
                 width: 92,
                 child: AutoSizeText(

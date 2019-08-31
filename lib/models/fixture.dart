@@ -15,13 +15,14 @@ class Fixture {
   Winner winningTeam;
   Score fullTimeScore;
 
-  Fixture({this.id, this.utcDate, this.status});
+  Fixture({this.id, this.utcDate, this.status, this.winningTeam});
 
   factory Fixture.fromJson(Map<String, dynamic> json) {
     return Fixture(
       id: json['id'],
       utcDate: json['utcDate'],
       status: Config.enumFromString(MatchStatus.values, json['status']),
+      winningTeam: Config.enumFromString(Winner.values, json['score']['winner']),
     );
   }
 
@@ -79,5 +80,17 @@ class Fixture {
   String getDateFormatted() {
     DateTime date = Config.stringToDateTime(this.utcDate).toLocal();
     return "${Config.dayNumToString(date.weekday)}, ${date.day} ${Config.monthNumToString(date.month)}";
+  }
+
+  String getScoreFormatted() {
+    return "${this.fullTimeScore.homeTeamScore}  -  ${this.fullTimeScore.awayTeamScore}";
+  }
+
+  bool hasDrawn() {
+    return this.winningTeam == Winner.DRAW;
+  }
+
+  bool hasHomeWon() {
+    return this.winningTeam == Winner.HOME_TEAM;
   }
 }
