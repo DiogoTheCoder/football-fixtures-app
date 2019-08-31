@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:football_fixtures/config.dart';
 import 'package:football_fixtures/enums/team.dart';
 import 'package:football_fixtures/models/fixture.dart';
 import 'package:football_fixtures/models/league.dart';
@@ -43,14 +44,16 @@ class _FixturesPageState extends State<FixturesPage> {
                 } else {
                   if (snapshot.hasData && snapshot.data != null) {
                     List<Fixture> _fixtures = snapshot.data;
+                    DateTime lastFixtureDate = Config.stringToDateTime(_fixtures.first.utcDate).toLocal();
                     return ListView.builder(
                       itemCount: _fixtures.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: <Widget>[
-                            fixtureCard(context, _fixtures[index]),
-                          ],
-                        );
+                        Fixture currentFixture = _fixtures[index];
+                        DateTime fixtureDate = Config.stringToDateTime(currentFixture.utcDate).toLocal();
+                        Widget fixtureCard = fixtureDaySection(context, currentFixture, fixtureDate, lastFixtureDate);
+                        lastFixtureDate = fixtureDate;
+
+                        return fixtureCard;
                       },
                     );
                   } else {
@@ -65,7 +68,29 @@ class _FixturesPageState extends State<FixturesPage> {
   }
 }
 
+/// Since we only get one week worth of fixtures,
+/// we can get away with just checking the day
+Widget fixtureDaySection(BuildContext context, Fixture fixture, DateTime fixtureDate, DateTime lastFixtureDate) {
+  if (lastFixtureDate.day != fixtureDate.day) {
+    return Column(
+      children: <Widget>[
+        AutoSizeText(
+          fixture.getDateFormatted()
+        ),
+        fixtureCard(context, fixture),
+      ],
+    );
+  } else {
+    return Column(
+      children: <Widget>[
+        fixtureCard(context, fixture),
+      ],
+    );
+  }
+}
+
 Widget fixtureCard(BuildContext context, Fixture fixture) {
+  Color borderColor = Colors.purple;
   return InkWell(
     onTap: () {
       // Navigator.push(
@@ -74,6 +99,10 @@ Widget fixtureCard(BuildContext context, Fixture fixture) {
       // );
     },
     child: Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: borderColor),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
       child: Container(
         height: 96,
         child: Padding(

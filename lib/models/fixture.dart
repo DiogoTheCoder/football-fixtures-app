@@ -1,6 +1,9 @@
 import 'package:football_fixtures/config.dart';
 import 'package:football_fixtures/enums/match_status.dart';
+import 'package:football_fixtures/enums/score_type.dart';
 import 'package:football_fixtures/enums/team.dart';
+import 'package:football_fixtures/enums/winner.dart';
+import 'package:football_fixtures/models/score.dart';
 import 'package:football_fixtures/models/team.dart';
 
 class Fixture {
@@ -9,6 +12,8 @@ class Fixture {
   final MatchStatus status;
   Team _homeTeam;
   Team _awayTeam;
+  Winner winningTeam;
+  Score fullTimeScore;
 
   Fixture({this.id, this.utcDate, this.status});
 
@@ -43,5 +48,31 @@ class Fixture {
         return null;
         break;
     }
+  }
+
+  void setWinningTeam(Winner team) {
+    this.winningTeam = team;
+  }
+
+  void setScore(Score score) {
+    switch (score.type) {
+      case ScoreType.FULL_TIME:
+        this.fullTimeScore = score;
+        break;
+      case ScoreType.HALF_TIME:
+        // TODO: Handle this case.
+        break;
+      case ScoreType.EXTRA_TIME:
+        // TODO: Handle this case.
+        break;
+      case ScoreType.PENALTIES:
+        // TODO: Handle this case.
+        break;
+    }
+  }
+
+  String getDateFormatted() {
+    DateTime date = Config.stringToDateTime(this.utcDate).toLocal();
+    return "${Config.dayNumToString(date.weekday)}, ${date.day} ${Config.monthNumToString(date.month)}";
   }
 }

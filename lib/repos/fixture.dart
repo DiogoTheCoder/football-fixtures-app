@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:football_fixtures/config.dart';
 import 'package:football_fixtures/controllers/api.dart';
+import 'package:football_fixtures/enums/score_type.dart';
 import 'package:football_fixtures/enums/team.dart';
 import 'package:football_fixtures/models/fixture.dart';
 import 'package:football_fixtures/models/league.dart';
+import 'package:football_fixtures/models/score.dart';
 import 'package:football_fixtures/models/team.dart';
 
 class FixtureRepo {
@@ -20,6 +22,10 @@ class FixtureRepo {
       Fixture fixtureObj = Fixture.fromJson(fixture);
       fixtureObj.setTeam(TeamType.HOME, Team.fromJson(fixture['homeTeam']));
       fixtureObj.setTeam(TeamType.AWAY, Team.fromJson(fixture['awayTeam']));
+
+      Score scoreObj = Score.fromJson(fixture['score']['fullTime'], ScoreType.FULL_TIME);
+      fixtureObj.setScore(scoreObj);
+
       fixtures.add(fixtureObj);
     }
 
